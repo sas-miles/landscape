@@ -337,9 +337,7 @@ const particlePositions = new Float32Array(particlesCount * 3)
 const scaleArray = new Float32Array(particlesCount)
 
 for(let i = 0; i < particlesCount * 3; i++) {
-    particlePositions[i * 3 + 0] = (Math.random() - 0.5) * 500
-    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 500
-    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 500
+    particlePositions[i] = (Math.random() - 0.5) * 1000
 
     scaleArray[i] = Math.random()
 }
@@ -366,6 +364,30 @@ const pariclesMaterial = new THREE.ShaderMaterial({
 const particles = new THREE.Points(particlesGeometry, pariclesMaterial)
 
 scene.add(particles)
+
+
+//Particles Two
+const particlesWideGeometry = new THREE.BufferGeometry()
+const particlesWideCount = 10000
+const particlesWidePositions = new Float32Array(particlesWideCount * 3)
+for(let i = 0; i < particlesWideCount * 3; i++) {
+    particlesWidePositions[i] = (Math.random() - 0.5) * 2000
+}
+
+particlesWideGeometry.setAttribute('position', new THREE.BufferAttribute(particlesWidePositions, 3))
+
+const particlesWideMaterial = new THREE.PointsMaterial({
+    size: 0.8,
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    color: 0x183ED3
+})
+
+const particlesWideMesh = new THREE.Points(particlesWideGeometry, particlesWideMaterial)
+
+scene.add(particlesWideMesh)
 
 /**
  * Camera
@@ -530,6 +552,10 @@ const tick = () => {
 
     //Update Material 
     pariclesMaterial.uniforms.uTime.value = elapsedTime
+
+    // Update the position of the points
+    particlesWideMesh.rotation.y = elapsedTime * .2
+    particlesWideMesh.rotation.x = elapsedTime * .2
     
     
     // Apply damping to camera rotation
