@@ -391,7 +391,7 @@ let targetRotationY = camera.rotation.y;
 
 // Animate the camera to its final position
 gsap.to(camera.position, {
-    duration: 6, // Duration in seconds
+    duration: 5, // Duration in seconds
     x: 0,
     y: 10,
     z: 105,
